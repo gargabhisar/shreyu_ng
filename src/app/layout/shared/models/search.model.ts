@@ -7,8 +7,6 @@ export interface SearchResultItem {
 export interface SearchUserItem {
     id?: number;
     name?: string;
-    role?:string;
-    image?:string;
     position?: string;
     profile?: string;
 }

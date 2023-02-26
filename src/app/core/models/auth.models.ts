@@ -10,5 +10,4 @@ export class User {
     avatar?: string;
     location?: string;
     title?: string;
-    publicationid?:number
 }

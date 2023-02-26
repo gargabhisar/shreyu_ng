@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { LayoutEventType } from 'src/app/core/constants/events';
 import { AuthenticationService } from 'src/app/core/service/auth.service';
 import { EventService } from 'src/app/core/service/event.service';
@@ -32,15 +31,14 @@ export class TopbarComponent implements OnInit {
 
   loggedInUser: any = {};
   topnavCollapsed: boolean = false;
-  profileImg:any;
+
   // output events
   @Output() mobileMenuButtonClicked = new EventEmitter<void>();
   @Output() settingsButtonClicked = new EventEmitter<boolean>();
 
   constructor (
     private authService: AuthenticationService,
-    private eventService: EventService,
-    private _sanitizer: DomSanitizer
+    private eventService: EventService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +50,7 @@ export class TopbarComponent implements OnInit {
     this._fetchProfileOptions();
 
     this.loggedInUser = this.authService.currentUser();
-    this.profileImg = this._sanitizer.bypassSecurityTrustResourceUrl(this.loggedInUser.image);
+
     document.addEventListener('fullscreenchange', this.exitHandler);
     document.addEventListener("webkitfullscreenchange", this.exitHandler);
     document.addEventListener("mozfullscreenchange", this.exitHandler);

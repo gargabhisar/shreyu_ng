@@ -1,5 +1,4 @@
-
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -10,9 +9,8 @@ import { loggedInUser } from '../helpers/utils';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     user: User | null = null;
-    myAppUrl : string;
-    constructor (private http: HttpClient,@Inject("BASE_URL") baseurl: string) {
-        this.myAppUrl = baseurl;
+
+    constructor (private http: HttpClient) {
     }
 
     /**
@@ -30,13 +28,19 @@ export class AuthenticationService {
      * @param email email of user
      * @param password password of user
      */
-    
-
-    login(email: string, password: string,publicationid:number): any {
+    login(email: string, password: string): any {
         console.log(email, " ", password);
-         return this.http.post<any>(this.myAppUrl + `/Login/AuthorLogin`, { userEmail:email, userPassword:password,publicationId:publicationid });
+        return this.http.post<any>(`/api/login`, { email, password })
+            .pipe(map(user => {
+                // login successful if there's a jwt token in the response
+                if (user && user.token) {
+                    this.user = user;
+                    // store user details and jwt in session
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                }
+                return user;
+            }));
     }
-
 
     /**
      * Performs the signup auth
@@ -58,9 +62,7 @@ export class AuthenticationService {
     logout(): void {
         // remove user from session storage to log user out
         sessionStorage.removeItem('currentUser');
-        sessionStorage.removeItem('token');
         this.user = null;
     }
 }
-
 

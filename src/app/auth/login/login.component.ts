@@ -32,9 +32,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['garg.abhisar@gmail.com', [Validators.required, Validators.email]],
-      password: ['rainbow_8', Validators.required],
-      publicationid:[1]
+      email: ['shreyu@coderthemes.com', [Validators.required, Validators.email]],
+      password: ['test', Validators.required]
     });
 
     // reset login status
@@ -60,18 +59,16 @@ export class LoginComponent implements OnInit {
     this.formSubmitted = true;
     if (this.loginForm.valid) {
       this.loading = true;
-      this.authenticationService.login(this.formValues.email?.value, this.formValues.password?.value,this.formValues.publicationid?.value).subscribe({
-        next: (response: any) => {
-           // store user details and jwt in session
-            sessionStorage.setItem('currentUser', JSON.stringify(response.result.loggedInUser));
-            sessionStorage.setItem('token', JSON.stringify(response.result.token));
+      this.authenticationService.login(this.formValues.email?.value, this.formValues.password?.value)
+        .pipe(first())
+        .subscribe(
+          (data: any) => {
             this.router.navigate([this.returnUrl]);
-        },
-        error: (error: any) => { 
-          this.error = error;
-          this.loading = false;},
-       });
-     
+          },
+          (error: any) => {
+            this.error = error;
+            this.loading = false;
+          });
     }
   }
 

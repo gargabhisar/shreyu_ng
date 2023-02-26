@@ -41,11 +41,11 @@
                                 <a href="javascript:void(0);" class="notify-item" ngbDropdownItem
                                     *ngFor="let user of searchUsers">
                                     <div class="d-flex text-align-start">
-                                        <img class="me-2 rounded-circle" [src]="profileImg" [alt]="user.name"
+                                        <img class="me-2 rounded-circle" [src]="user.profile" [alt]="user.name"
                                             height="32">
                                         <div class="flex-grow-1">
                                             <h5 class="m-0 fs-14">{{user.name}}</h5>
-                                            <span class="fs-12 mb-0">{{user.role}}</span>
+                                            <span class="fs-12 mb-0">{{user.position}}</span>
                                         </div>
                                     </div>
                                 </a>
@@ -157,7 +157,7 @@
                 <a class="nav-link dropdown-toggle nav-user me-0" href="javascript:void(0)" role="button"
                     ngbDropdownToggle>
                     <!-- <img src="assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle"> -->
-                    <img [src]="profileImg" alt="user-image" class="rounded-circle">
+                    <img [src]="loggedInUser.avatar" alt="user-image" class="rounded-circle">
                     <span class="pro-user-name ms-1">
                         {{loggedInUser.name}} <i class="uil uil-angle-down"></i>
                         <!-- Nik Patel <i class="uil uil-angle-down"></i> -->
