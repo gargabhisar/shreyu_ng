@@ -24,5 +24,11 @@ function loggedInUser(): User | null {
     return user;
 }
 
-export { getAllUsers, loggedInUser }
+function getCurrentToken(){
+    let token: string | null = "";
+    token = JSON.parse(sessionStorage.getItem('token')!);
+    return token;
+}
+
+export { getAllUsers, loggedInUser,getCurrentToken }
 

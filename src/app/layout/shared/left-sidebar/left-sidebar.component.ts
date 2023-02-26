@@ -6,7 +6,7 @@ import { AuthenticationService } from '../../../core/service/auth.service';
 import { MENU_ITEMS } from '../config/menu-meta';
 import { MenuItem } from '../models/menu.model';
 import { findAllParent, findMenuItem } from '../helper/utils';
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-left-sidebar',
   templateUrl: './left-sidebar.component.html',
@@ -20,7 +20,7 @@ export class LeftSidebarComponent implements OnInit, AfterViewInit {
 
   leftSidebarClass = 'sidebar-enable';
   activeMenuItems: string[] = [];
-
+  profileImg:any;
   loggedInUser: any = {};
 
 
@@ -29,7 +29,7 @@ export class LeftSidebarComponent implements OnInit, AfterViewInit {
   constructor (
     router: Router,
     private authService: AuthenticationService,
-    private eventService: EventService) {
+    private eventService: EventService,private _sanitizer: DomSanitizer) {
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenu(); //actiavtes menu
@@ -43,6 +43,7 @@ export class LeftSidebarComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.initMenu();
     this.loggedInUser = this.authService.currentUser();
+    this.profileImg = this._sanitizer.bypassSecurityTrustResourceUrl(this.loggedInUser.image);
   }
 
   ngOnChanges(): void {
